@@ -25,7 +25,7 @@
             </div>
             <div class="relative w-full !text-base !font-mono rounded-xl">
                 <slot name="client"></slot>
-                <div class="absolute p-1 rounded bg-red-400/25" style="
+                <!-- <div class="absolute p-1 rounded bg-red-400/25" style="
                         top: 13.2em;
                         left: 5.9em;
                         width: 2.2em;
@@ -34,7 +34,7 @@
                 <p class="absolute px-3 py-1.5 rounded bg-white dark:bg-gray-700 border dark:border-gray-600"
                     style="top: 15.25em; left: 3.25em">
                     Type 'string' is not assignable to type 'number'
-                </p>
+                </p> -->
             </div>
         </section>
     </section>

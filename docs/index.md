@@ -23,7 +23,7 @@ head:
 <Landing>
   <template v-slot:justreturn>
   
-```typescript
+```typescript twoslash
 import { Elysia } from 'elysia'
 
 new Elysia()
@@ -39,16 +39,20 @@ new Elysia()
 
   <template v-slot:typestrict>
 
-```typescript
+```typescript twoslash
 import { Elysia, t } from 'elysia'
 
 new Elysia()
     .post(
         '/profile',
         ({ body }) => body,
+        //              ^?
+        //
+        //
+        //
         {
             body: t.Object({
-                username: t.String()
+                username: t.TemplateLiteral("{a|b}")
             })
         }
     )
@@ -59,7 +63,7 @@ new Elysia()
 
   <template v-slot:openapi>
 
-```ts
+```typescript
 import { Elysia, t } from 'elysia'
 import { swagger } from '@elysiajs/swagger'
 import { users, feed } from './controllers'
@@ -74,7 +78,12 @@ new Elysia()
 
 <template v-slot:server>
 
-```ts
+```typescript twoslash
+function signIn(data: { name: string, age: number }) {
+  return "ok"
+};
+
+// ---cut---
 // server.ts
 import { Elysia, t } from 'elysia'
 
@@ -97,7 +106,31 @@ export type App = typeof app
 
   <template v-slot:client>
 
-```ts
+```typescript twoslash
+// @filename: server.ts
+import { Elysia, t } from 'elysia'
+
+function signIn(data: { name: string, age: number }) {
+  return "ok"
+};
+
+const app = new Elysia()
+    .patch(
+        '/user/age',
+        ({ body }) => signIn(body), 
+        {
+            body: t.Object({
+                name: t.String(),
+                age: t.Number()
+            })
+        }
+    )
+    .listen(80)
+    
+export type App = typeof app
+// @filename: client.ts
+// @errors: 2322
+// ---cut---
 // client.ts
 import { edenTreaty } from '@elysiajs/eden'
 import type { App } from 'server'
